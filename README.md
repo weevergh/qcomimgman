@@ -1,5 +1,6 @@
 qcomimgman
 ==========
+```
 Usage:
 initramfsman.js <tree|ls|cat|create|modify> [args]
 Simple initramfs(gzipped cpio newc archive) manipulation script.
@@ -16,7 +17,8 @@ Simple initramfs(gzipped cpio newc archive) manipulation script.
     put <local file> <archive file>
     link <source path> <archive path>
     remove <archive file/directory>
-
+```
+```
 Usage:
 qcbootimgman.js <info|extract|create|modify|initrd> [args]
 QCOM boot/recovery image manipulation script.
@@ -64,7 +66,8 @@ QCOM boot/recovery image manipulation script.
       put <local file> <initrd file>
       link <source path> <initrd path>
       remove <initrd file/directory>
-
+```
+```
 Usage: qcdtman.js <info|extract|create> [args]
 QCOM DT manipulation script.
  Functions:
@@ -79,3 +82,4 @@ QCOM DT manipulation script.
    --page-size/-s       page size in bytes
    --dt-tag/-d          alternate QCDT_DT_TAG
    --force-v2/-2        use dtb v2 format
+```
