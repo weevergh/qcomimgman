@@ -1,5 +1,12 @@
-qcomimgman
+QCOM boot image manipulations
 ==========
+
+Convenient scripts to manipulate QCOM boot related images.
+
+Aimed at replacing unpackbootimg/mkbootimg and dtbtool, as well as providing a way to modify initrd.
+
+These scripts **do not** have external dependencies, only use nodejs standard libs, no module or kernel/aosp source/binary needed, making them portalbe across different OSes. (maybe not true if bugs exist :P)
+
 ```
 Usage:
 initramfsman.js <tree|ls|cat|create|modify> [args]
