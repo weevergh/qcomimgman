@@ -65,7 +65,7 @@ InitRamFs.prototype.alloc_ino = function() {
         for(var e in node.files)
             cb(node.files[e]);
     }
-    var ino = true;
+    var ino = 0;
     walkInitRamFs(this._$tree, function(stats) {
         if(ino < stats.ino) ino = stats.ino;
     });
