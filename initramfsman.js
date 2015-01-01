@@ -37,8 +37,23 @@ function InitRamFs(data) {
     this._$tree = { 
         subdirs: { },
         files: { }, 
-        nodeinfo: undefined
+        nodeinfo: new fs.Stats  // Populate default root
     };
+    this._$tree.nodeinfo.data = new Buffer(0);
+    this._$tree.nodeinfo.size = this._$tree.nodeinfo.data.length;
+    this._$tree.nodeinfo.name = '.';
+    this._$tree.nodeinfo.namesize = this._$tree.nodeinfo.name.length + 1;
+    this._$tree.nodeinfo.mode = 0x45ed; // 42755
+    this._$tree.nodeinfo.maj = 0;
+    this._$tree.nodeinfo.min = 0;
+    this._$tree.nodeinfo.rmaj = 0;
+    this._$tree.nodeinfo.rmin = 0;
+    this._$tree.nodeinfo.uid = 0;
+    this._$tree.nodeinfo.gid = 0;
+    this._$tree.nodeinfo.mtime = Math.floor(Date.now() / 1000);
+    this._$tree.nodeinfo.ino = this.alloc_ino();
+    this._$tree.nodeinfo.chksum = 0;
+    this._$tree.nodeinfo.nlink = 2; // highly likely wrong
     if(Array.isArray(data)) data.forEach(function(e) { this.addEntry(e); }, this);
     else if(Buffer.isBuffer(data)) this.fromBuffer(data);
 }
@@ -47,7 +62,7 @@ InitRamFs.prototype.validate = function() {
         cb(node.nodeinfo);
         for(var e in node.subdirs)
             walkInitRamFs(node.subdirs[e], cb);
-        for(var e in node.files)
+        for(var e in node.files) 
             cb(node.files[e]);
     }
     var res = true;
@@ -114,8 +129,7 @@ InitRamFs.prototype.fromBuffer = function(newc_data) {
         this.addEntry(file_entry);
 
         if(file_entry.name === "TRAILER!!!")
-            if(file_entry.ino +
-                file_entry.mode +
+            if((file_entry.mode >> 9) +
                 file_entry.uid +
                 file_entry.gid +
                 file_entry.nlink +
@@ -227,11 +241,10 @@ InitRamFs.prototype.toBuffer = function() {
 }
 InitRamFs.prototype.addEntry = function(entry) {
     if((entry.name === 'TRAILER!!!') && (entry.dev === 0) &&
-        (entry.rdev === 0) && (entry.ino === 0) && (entry.mode === 0))
+        (entry.rdev === 0) && ((entry.mode >> 9) === 0)) 
         return;
 
     if(entry.name === '.') {  // root
-        if(this._$tree.nodeinfo !== undefined) throw new Error('Duplicate root node');
         this._$tree.nodeinfo = entry;
         return;
     }

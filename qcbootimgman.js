@@ -5,8 +5,17 @@ var fs = require('fs'),
     zlib = require('zlib'),
     initramfsman = undefined;
 
-if(fs.existsSync('./initramfsman.js') && fs.statSync('./initramfsman.js').isFile())
-    initramfsman = require('./initramfsman.js');
+var possible_initramfs_path = [ 
+        '.',
+        path.dirname(process.argv[1])
+    ];
+for(var i = 0; i < possible_initramfs_path.length; i++) {
+    var p = path.resolve(possible_initramfs_path[i], 'initramfsman.js');
+    if(fs.existsSync(p) && fs.statSync(p).isFile()) {
+        initramfsman = require(p);
+        break;
+    }
+}
 
 function zeroFill( number, width ) {
     width -= number.toString().length;
