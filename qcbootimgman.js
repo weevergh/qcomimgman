@@ -233,8 +233,10 @@ BootImg.prototype.extract = function(output_dir, prefix) {
 
     fs.writeFileSync(path.resolve(output_dir, prefix + "-kernel"), this.kernel_data);
     fs.writeFileSync(path.resolve(output_dir, prefix + "-ramdisk"), this.ramdisk_data);
-    if(this.second_size) fs.writeFileSync(path.resolve(output_dir, prefix + "-second"), this.second_data);
-    if(this.dt_size) fs.writeFileSync(path.resolve(output_dir, prefix + "-dt"), this.dt_data);
+    if(this.second_data && (this.second_data.length > 0))
+        fs.writeFileSync(path.resolve(output_dir, prefix + "-second"), this.second_data);
+    if(this.dt_data && (this.dt_data.length > 0))
+        fs.writeFileSync(path.resolve(output_dir, prefix + "-dt"), this.dt_data);
 
     var info_file_path = path.resolve(output_dir, prefix + "-info");
 
