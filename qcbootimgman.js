@@ -455,7 +455,7 @@ function main_modify_bootimg() {
 
 	if(output_file) {
 		fs.writeFileSync(output_file, bootimg.toBuffer());
-		console.log('Modified image at ' + output);
+		console.log('Modified image at ' + output_file);
 	} else {
 		fs.writeFileSync(imgfile, bootimg.toBuffer());
 		console.log('Modified image in-place ' + imgfile);
